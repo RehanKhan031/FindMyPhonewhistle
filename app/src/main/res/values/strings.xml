@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FindMyPhoneWhistle</string>
+
+    <string name="find_my_phone">Find My Phone</string>
+    <string name="vibration">Vibration</string>
+    <string name="flash_light">Flash Light</string>
+    <string name="activate">Activate</string>
 </resources>
