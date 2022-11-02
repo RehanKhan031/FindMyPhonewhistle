@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.findmyphonewhistle.MyUtils
 import com.example.findmyphonewhistle.databinding.ActivityMainBinding
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -15,7 +14,6 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
-import com.rdure.findmyphonewhistle.Operation
 
 class MainActivity : AppCompatActivity() {
 
@@ -56,8 +54,39 @@ class MainActivity : AppCompatActivity() {
             }
             flashLightSwitch.setOnClickListener {
 
+                if (!vibrationSwitch.isChecked) {
+                    val sharedPreferences = getSharedPreferences("flashLightCheck", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("flashLight", true)
+                    editor.apply()
+                    val sharedPreferences1 = getSharedPreferences("flashLightCheck", MODE_PRIVATE)
+                    val flashLight = sharedPreferences1.getBoolean("flashLight", true)
+                    Toast.makeText(this@MainActivity,flashLight.toString(),Toast.LENGTH_SHORT).show()
+
+                }else{
+                    val sharedPreferences = getSharedPreferences("flashLightCheck", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("flashLight", false)
+                    editor.apply()
+                    val sharedPreferences1 = getSharedPreferences("flashLightCheck", MODE_PRIVATE)
+                    val flashLight = sharedPreferences1.getBoolean("flashLight", false)
+                    Toast.makeText(this@MainActivity,flashLight.toString(),Toast.LENGTH_SHORT).show()
+                }
             }
             vibrationSwitch.setOnClickListener {
+
+
+                if (vibrationSwitch.isChecked) {
+                    val sharedPreferences = getSharedPreferences("vibrationCheck", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("vibration", true)
+                    editor.apply()
+                }else{
+                    val sharedPreferences = getSharedPreferences("vibrationCheck", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putBoolean("vibration", false)
+                    editor.apply()
+                }
 
             }
 
@@ -72,9 +101,7 @@ class MainActivity : AppCompatActivity() {
 
         lodeDataClap()
         if (clap == 1) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                recordAudioSync.clap = 1
-            }
+            recordAudioSync.clap = 1
             permissions()
         }
     }
@@ -87,7 +114,6 @@ class MainActivity : AppCompatActivity() {
     fun permissions() {
         Dexter.withContext(context).withPermission(Manifest.permission.RECORD_AUDIO)
             .withListener(object : PermissionListener {
-                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 override fun onPermissionGranted(permissionGrantedResponse: PermissionGrantedResponse) {
                     isgranted()
                 }
@@ -107,7 +133,6 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     fun isgranted() {
         recordAudioSync.runing()
     }
@@ -116,9 +141,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("saveDataClap", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("clap", clap)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-            editor.apply()
-        }
+        editor.apply()
     }
 
     fun lodeDataClap() {

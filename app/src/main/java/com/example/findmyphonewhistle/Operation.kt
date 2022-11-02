@@ -1,13 +1,11 @@
-package com.rdure.findmyphonewhistle
+package com.example.findmyphonewhistle
 
 import android.content.Context
 import android.content.Intent
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraManager
 import android.media.MediaRecorder
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
+import android.os.*
 import android.util.Log
 import android.widget.Toast
 import com.example.findmyphonewhistle.MainActivity
@@ -50,7 +48,7 @@ class Operation(var context: Context) {
         mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.MIC)
         mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
         mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-        mediaRecorder!!.setOutputFile("/data/data/" + context!!.packageName + "/music.3gp")
+        mediaRecorder!!.setOutputFile("/data/data/" + context.packageName + "/music.3gp")
         try {
             mediaRecorder!!.prepare()
             mediaRecorder!!.start()
@@ -68,10 +66,8 @@ class Operation(var context: Context) {
                 finishAmlitued = mediaRecorder!!.maxAmplitude
                 if (finishAmlitued >= amlituedTreshold) {
                     if (co == 0) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            cameraManager =
-                                context!!.getSystemService(Context.CAMERA_SERVICE) as CameraManager
-                        }
+                        cameraManager =
+                            context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             try {
                                 if (cameraManager != null) {
@@ -87,11 +83,22 @@ class Operation(var context: Context) {
                             }
                             co = 1
                         }
-                    } else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            cameraManager =
-                                context!!.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+
+                        val vibrator =
+                            context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                        if (Build.VERSION.SDK_INT >= 26) {
+                            vibrator.vibrate(
+                                VibrationEffect.createOneShot(
+                                    200,
+                                    VibrationEffect.DEFAULT_AMPLITUDE
+                                )
+                            )
+                        } else {
+                            vibrator.vibrate(200)
                         }
+                    } else {
+                        cameraManager =
+                            context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             if (cameraManager != null) {
                                 try {
@@ -111,6 +118,10 @@ class Operation(var context: Context) {
                         }
                         co = 0
                         Log.d("My Tag", "In Loop....")
+
+
+
+
                     }
                 }
             } else {
@@ -123,7 +134,7 @@ class Operation(var context: Context) {
     private fun sandBroadCast(action: String) {
         val intent = Intent(action)
         //LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(context);
-        context!!.sendBroadcast(intent)
+        context.sendBroadcast(intent)
     }
 
     fun doun() {
