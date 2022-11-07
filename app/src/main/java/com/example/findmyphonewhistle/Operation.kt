@@ -8,6 +8,7 @@ import android.media.MediaRecorder
 import android.os.*
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.findmyphonewhistle.MainActivity
 import java.io.IOException
 import java.util.concurrent.ExecutorService
@@ -28,10 +29,6 @@ class Operation(var context: Context) {
     private var cameraManager: CameraManager? = null
     private var co = 0
     private var cameraid: String? = null
-
-//    fun longOperation(context: Context?) {
-//        this.context = context
-//    }
 
     fun runing() {
         Handler(Looper.getMainLooper())
@@ -66,35 +63,49 @@ class Operation(var context: Context) {
                 finishAmlitued = mediaRecorder!!.maxAmplitude
                 if (finishAmlitued >= amlituedTreshold) {
                     if (co == 0) {
-                        cameraManager =
-                            context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            try {
-                                if (cameraManager != null) {
-                                    cameraid = cameraManager!!.getCameraIdList()[0]
-                                    cameraManager!!.setTorchMode(cameraid!!, true)
-                                    MainActivity.count = 1
-                                    action = "On"
-                                    sandBroadCast(action!!)
-                                    Log.d("my ", "action $action")
-                                }
-                            } catch (e: CameraAccessException) {
-                                e.printStackTrace()
-                            }
-                            co = 1
-                        }
 
-                        val vibrator =
-                            context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                        if (Build.VERSION.SDK_INT >= 26) {
-                            vibrator.vibrate(
-                                VibrationEffect.createOneShot(
-                                    200,
-                                    VibrationEffect.DEFAULT_AMPLITUDE
+                        val vibrationSharedPreferences = context.getSharedPreferences("vibrationCheck",
+                            AppCompatActivity.MODE_PRIVATE)
+                        val vibration = vibrationSharedPreferences.getBoolean("vibration", false)
+
+
+                        val flashLightSharedPreferences = context.getSharedPreferences("flashLightCheck",
+                            AppCompatActivity.MODE_PRIVATE)
+                        val flashLight = flashLightSharedPreferences.getBoolean("flashLight", false)
+
+
+                        if (vibration) {
+                            val vibrator =
+                                context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                            if (Build.VERSION.SDK_INT >= 26) {
+                                vibrator.vibrate(
+                                    VibrationEffect.createOneShot(
+                                        200,
+                                        VibrationEffect.DEFAULT_AMPLITUDE
+                                    )
                                 )
-                            )
-                        } else {
-                            vibrator.vibrate(200)
+                            } else {
+                                vibrator.vibrate(200)
+                            }
+                        }
+                        if (flashLight) {
+                            cameraManager =
+                                context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                try {
+                                    if (cameraManager != null) {
+                                        cameraid = cameraManager!!.getCameraIdList()[0]
+                                        cameraManager!!.setTorchMode(cameraid!!, true)
+                                        MainActivity.count = 1
+                                        action = "On"
+                                        sandBroadCast(action!!)
+                                        Log.d("my ", "action $action")
+                                    }
+                                } catch (e: CameraAccessException) {
+                                    e.printStackTrace()
+                                }
+                                co = 1
+                            }
                         }
                     } else {
                         cameraManager =
@@ -118,11 +129,7 @@ class Operation(var context: Context) {
                         }
                         co = 0
                         Log.d("My Tag", "In Loop....")
-
-
-
-
-                    }
+             }
                 }
             } else {
                 doun()
@@ -133,7 +140,6 @@ class Operation(var context: Context) {
 
     private fun sandBroadCast(action: String) {
         val intent = Intent(action)
-        //LocalBroadcastManager mgr = LocalBroadcastManager.getInstance(context);
         context.sendBroadcast(intent)
     }
 

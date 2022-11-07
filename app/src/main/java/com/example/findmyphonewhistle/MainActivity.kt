@@ -21,11 +21,8 @@ class MainActivity : AppCompatActivity() {
 
     companion object{
         var count = 0
-        var count1: Int = 0
         var clap: Int = 0
     }
-
-
     var recordAudioSync = Operation(this@MainActivity)
 
     var context: Context = this
@@ -38,8 +35,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        binding.apply {
+        lodeDataClap()
 
+        binding.apply {
+            if (clap == 0) {
+                activate.text = "DeActivate"
+            }else{
+                activate.text = "Activate"
+            }
             activate.setOnClickListener {
                 MyUtils.KEERA++
                 if (clap == 0) {
@@ -47,36 +50,33 @@ class MainActivity : AppCompatActivity() {
                     recordAudioSync.clap = 1
                     clap = 1
                     permissions()
+                    activate.text = "Activate"
                 } else {
+                    clapBool = false
                     clap = 0
                     recordAudioSync.clap = 0
+                    activate.text = "DeActivate"
                 }
             }
-            flashLightSwitch.setOnClickListener {
+            flashLightSwitch.setOnCheckedChangeListener { _, isChecked ->
 
-                if (!vibrationSwitch.isChecked) {
+                if (isChecked) {
                     val sharedPreferences = getSharedPreferences("flashLightCheck", MODE_PRIVATE)
                     val editor = sharedPreferences.edit()
                     editor.putBoolean("flashLight", true)
                     editor.apply()
-                    val sharedPreferences1 = getSharedPreferences("flashLightCheck", MODE_PRIVATE)
-                    val flashLight = sharedPreferences1.getBoolean("flashLight", true)
-                    Toast.makeText(this@MainActivity,flashLight.toString(),Toast.LENGTH_SHORT).show()
-
                 }else{
                     val sharedPreferences = getSharedPreferences("flashLightCheck", MODE_PRIVATE)
                     val editor = sharedPreferences.edit()
                     editor.putBoolean("flashLight", false)
                     editor.apply()
-                    val sharedPreferences1 = getSharedPreferences("flashLightCheck", MODE_PRIVATE)
-                    val flashLight = sharedPreferences1.getBoolean("flashLight", false)
-                    Toast.makeText(this@MainActivity,flashLight.toString(),Toast.LENGTH_SHORT).show()
                 }
+
             }
-            vibrationSwitch.setOnClickListener {
 
+            vibrationSwitch.setOnCheckedChangeListener { _, isChecked ->
 
-                if (vibrationSwitch.isChecked) {
+                if (isChecked) {
                     val sharedPreferences = getSharedPreferences("vibrationCheck", MODE_PRIVATE)
                     val editor = sharedPreferences.edit()
                     editor.putBoolean("vibration", true)
@@ -98,11 +98,14 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-
         lodeDataClap()
         if (clap == 1) {
             recordAudioSync.clap = 1
+            clap = 1
             permissions()
+        }else{
+            clap = 0
+            recordAudioSync.clap = 0
         }
     }
 
@@ -131,19 +134,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }).check()
     }
-
-
     fun isgranted() {
         recordAudioSync.runing()
     }
-
     fun saveDataClap() {
         val sharedPreferences = getSharedPreferences("saveDataClap", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("clap", clap)
         editor.apply()
     }
-
     fun lodeDataClap() {
         val sharedPreferences = getSharedPreferences("saveDataClap", MODE_PRIVATE)
         clap = sharedPreferences.getInt("clap", 1)

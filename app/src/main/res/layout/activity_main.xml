@@ -10,29 +10,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/menu_icon"
-                android:layout_marginStart="16dp"
                 android:layout_gravity="center_vertical"
-                />
+                android:layout_marginStart="16dp"
+                android:src="@drawable/menu_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/find_my_phone"
                 android:layout_gravity="center_vertical"
-                android:textSize="30sp"
-                />
+                android:text="@string/find_my_phone"
+                android:textSize="30sp" />
 
         </LinearLayout>
 
@@ -43,108 +40,112 @@
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"
             android:text="@string/activate"
-            android:textSize="20sp"
-            />
+            android:textSize="20sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <androidx.cardview.widget.CardView
-                android:id="@+id/vibration_btn"
-                android:layout_width="150dp"
-                android:layout_height="160dp"
-                app:cardBackgroundColor="@color/white"
-                android:elevation="20dp"
-                app:cardCornerRadius="20dp"
-                android:layout_margin="20dp"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    >
+            android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/vibration"
-                        />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/vibration"
-                        android:textSize="20sp"
-                        android:layout_gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        />
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/vibration_btn"
+                    android:layout_width="150dp"
+                    android:layout_height="160dp"
+                    android:layout_margin="20dp"
+                    android:elevation="20dp"
+                    app:cardBackgroundColor="@color/white"
+                    android:layout_centerInParent="true"
+                    app:cardCornerRadius="20dp">
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/vibration_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/vibration" />
 
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/flash_lightBtn"
-                android:layout_width="150dp"
-                android:layout_height="160dp"
-                app:cardBackgroundColor="@color/white"
-                android:elevation="20dp"
-                app:cardCornerRadius="20dp"
-                android:layout_margin="20dp"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/vibration"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
-                    <ImageView
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/flash_light"
-                        />
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/vibration_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/flash_light"
-                        android:textSize="20sp"
-                        android:layout_gravity="center_horizontal"
-                        android:textStyle="bold"
-                        android:layout_marginTop="10dp"
-                        />
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/flash_lightBtn"
+                    android:layout_width="150dp"
+                    android:layout_height="160dp"
+                    android:layout_margin="20dp"
+                    android:layout_centerInParent="true"
+                    android:elevation="20dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:src="@drawable/flash_light" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/flash_light"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
 
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/flashLight_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        />
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/flashLight_switch"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal" />
 
-                </LinearLayout>
+                    </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
         </LinearLayout>
 
 
-
-
     </LinearLayout>
-
 
 
 </ScrollView>
