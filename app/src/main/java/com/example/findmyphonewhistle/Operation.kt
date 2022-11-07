@@ -94,7 +94,7 @@ class Operation(var context: Context) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 try {
                                     if (cameraManager != null) {
-                                        cameraid = cameraManager!!.getCameraIdList()[0]
+                                        cameraid = cameraManager!!.cameraIdList[0]
                                         cameraManager!!.setTorchMode(cameraid!!, true)
                                         MainActivity.count = 1
                                         action = "On"

@@ -39,9 +39,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.apply {
             if (clap == 0) {
-                activate.text = "DeActivate"
+                activateTxt.text = "Activate"
             }else{
-                activate.text = "Activate"
+                activateTxt.text = "DeActivate"
             }
             activate.setOnClickListener {
                 MyUtils.KEERA++
@@ -50,12 +50,12 @@ class MainActivity : AppCompatActivity() {
                     recordAudioSync.clap = 1
                     clap = 1
                     permissions()
-                    activate.text = "Activate"
+                    activateTxt.text = "DeActivate"
                 } else {
                     clapBool = false
                     clap = 0
                     recordAudioSync.clap = 0
-                    activate.text = "DeActivate"
+                    activateTxt.text = "Activate"
                 }
             }
             flashLightSwitch.setOnCheckedChangeListener { _, isChecked ->

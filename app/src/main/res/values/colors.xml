@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#A39696</color>
+    <color name="main_screen_bg">#FFFFFFFF</color>
+    <color name="main_screen_btn_color">#E0E5EB</color>
 </resources>

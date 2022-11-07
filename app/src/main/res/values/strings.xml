@@ -5,4 +5,5 @@
     <string name="vibration">Vibration</string>
     <string name="flash_light">Flash Light</string>
     <string name="activate">Activate</string>
+    <string name="find_your">Find your Phone when it is lost</string>
 </resources>
