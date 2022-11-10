@@ -6,4 +6,11 @@
     <string name="flash_light">Flash Light</string>
     <string name="activate">Activate</string>
     <string name="find_your">Find your Phone when it is lost</string>
+    <string name="rate_the_app">Rate the App</string>
+    <string name="share_with_friends">Share</string>
+    <string name="more_apps">More Apps</string>
+    <string name="exit_app">Exit</string>
+    <string name="navigation_drawer_open">navigation_drawer_open</string>
+    <string name="navigation_drawer_close">navigation_drawer_close</string>
+    <string name="more_apps_link">https://play.google.com/store/apps/developer?id=Rdure+Apps</string>
 </resources>

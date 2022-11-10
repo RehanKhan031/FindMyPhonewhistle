@@ -2,11 +2,15 @@ package com.example.findmyphonewhistle
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import com.example.findmyphonewhistle.databinding.ActivityMainBinding
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -92,6 +96,39 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+
+        navigationView()
+
+    }
+
+    private fun navigationView() {
+        binding.apply {
+            /* ****************Navigation Drawer View****************/
+            navView.bringToFront()
+            val toggle = ActionBarDrawerToggle(
+                this@MainActivity, drawerLayout,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            )
+            drawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+
+            navigationIcon.setOnClickListener {
+                drawerLayout.openDrawer(GravityCompat.START)
+            }
+
+            RateTheApp.setOnClickListener {
+                rateApp()
+            }
+            shareNavigationBar.setOnClickListener {
+                shareApp()
+            }
+            moreNavigationBar.setOnClickListener {
+                moreApp()
+            }
+            exitNavigationBar.setOnClickListener {
+                finishAffinity()
+            }
+        }
     }
 
 
@@ -148,4 +185,37 @@ class MainActivity : AppCompatActivity() {
         clap = sharedPreferences.getInt("clap", 1)
     }
 
+    private fun shareApp() {
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(
+            Intent.EXTRA_TEXT,
+            "Hey check out my app at: https://play.google.com/store/apps/details?id=" +
+                    //BuildConfig.APPLICATION_ID);
+                    applicationContext.packageName
+        )
+        sendIntent.type = "text/plain"
+        startActivity(sendIntent)
+    }
+
+    private fun rateApp() {
+        val uri = Uri.parse(
+            "https://play.google.com/store/apps/details?id=" +
+                    applicationContext.packageName
+        )
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, uri))
+        } catch (e: Exception) {
+            e.printStackTrace();
+        }
+    }
+
+    private fun moreApp() {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(resources.getString(R.string.more_apps_link))
+            )
+        )
+    }
 }
