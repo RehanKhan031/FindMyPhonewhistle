@@ -1,4 +1,4 @@
-package com.example.findmyphonewhistle
+package com.digitalLogix.findmyphonewhistle.phonefinder.findmyphone.whistlephonefinder.phonetracker.whistleapp.findphonebywhistle
 
 import android.content.Context
 import android.content.Intent
@@ -7,9 +7,7 @@ import android.hardware.camera2.CameraManager
 import android.media.MediaRecorder
 import android.os.*
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.findmyphonewhistle.MainActivity
 import java.io.IOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors

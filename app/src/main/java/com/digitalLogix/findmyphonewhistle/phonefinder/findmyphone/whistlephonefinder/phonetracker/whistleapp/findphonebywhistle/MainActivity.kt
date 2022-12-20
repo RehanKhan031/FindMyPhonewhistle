@@ -1,17 +1,22 @@
-package com.example.findmyphonewhistle
+package com.digitalLogix.findmyphonewhistle.phonefinder.findmyphone.whistlephonefinder.phonetracker.whistleapp.findphonebywhistle
 
 import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import android.view.View
+import android.widget.FrameLayout
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import com.example.findmyphonewhistle.databinding.ActivityMainBinding
+import com.digitalLogix.findmyphonewhistle.phonefinder.findmyphone.whistlephonefinder.phonetracker.whistleapp.findphonebywhistle.databinding.ActivityMainBinding
+import com.digitalLogix.findmyphonewhistle.phonefinder.findmyphone.whistlephonefinder.phonetracker.whistleapp.findphonebywhistle.utils.AdUtils.Companion.populateUnifiedNativeAdView
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.nativead.NativeAd
+import com.google.android.gms.ads.nativead.NativeAdOptions
+import com.google.android.gms.ads.nativead.NativeAdView
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionDeniedResponse
@@ -29,9 +34,11 @@ class MainActivity : AppCompatActivity() {
     }
     var recordAudioSync = Operation(this@MainActivity)
 
-    var context: Context = this
+    private var context: Context = this
 
     private var clapBool = false
+
+    private var nativeAd: NativeAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,9 +103,7 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-
         navigationView()
-
     }
 
     private fun navigationView() {
@@ -135,6 +140,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        loadNativeAd()
         lodeDataClap()
         if (clap == 1) {
             recordAudioSync.clap = 1
@@ -144,6 +150,7 @@ class MainActivity : AppCompatActivity() {
             clap = 0
             recordAudioSync.clap = 0
         }
+
     }
 
     override fun onPause() {
@@ -151,11 +158,11 @@ class MainActivity : AppCompatActivity() {
         saveDataClap()
     }
 
-    fun permissions() {
+    private fun permissions() {
         Dexter.withContext(context).withPermission(Manifest.permission.RECORD_AUDIO)
             .withListener(object : PermissionListener {
                 override fun onPermissionGranted(permissionGrantedResponse: PermissionGrantedResponse) {
-                    isgranted()
+                    isGranted()
                 }
 
                 override fun onPermissionDenied(permissionDeniedResponse: PermissionDeniedResponse) {
@@ -171,16 +178,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }).check()
     }
-    fun isgranted() {
+    fun isGranted() {
         recordAudioSync.runing()
     }
-    fun saveDataClap() {
+    private fun saveDataClap() {
         val sharedPreferences = getSharedPreferences("saveDataClap", MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putInt("clap", clap)
         editor.apply()
     }
-    fun lodeDataClap() {
+    private fun lodeDataClap() {
         val sharedPreferences = getSharedPreferences("saveDataClap", MODE_PRIVATE)
         clap = sharedPreferences.getInt("clap", 1)
     }
@@ -218,4 +225,43 @@ class MainActivity : AppCompatActivity() {
             )
         )
     }
+    private fun loadNativeAd() {
+        val builder = AdLoader.Builder(this@MainActivity, getString(R.string.admob_native_id))
+
+        // OnUnifiedNativeAdLoadedListener implementation.
+        builder.forNativeAd { unifiedNativeAd ->
+            if (nativeAd != null) {
+                nativeAd!!.destroy()
+            }
+            nativeAd = unifiedNativeAd
+            val adView = this@MainActivity.layoutInflater
+                .inflate(R.layout.native_mini, null) as NativeAdView
+            populateUnifiedNativeAdView(unifiedNativeAd, adView)
+            val nativeAdFrame: FrameLayout =
+                this@MainActivity.findViewById<FrameLayout>(R.id.native_ad)
+            nativeAdFrame.removeAllViews()
+            nativeAdFrame.addView(adView)
+            nativeAdFrame.visibility = View.VISIBLE
+        }
+
+        val videoOptions = VideoOptions.Builder()
+            .setStartMuted(true)
+            .build()
+
+        val adOptions = NativeAdOptions.Builder()
+            .setVideoOptions(videoOptions)
+            .build()
+
+        builder.withNativeAdOptions(adOptions)
+
+        val adLoader = builder.withAdListener(object : AdListener() {
+            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                super.onAdFailedToLoad(loadAdError)
+            }
+        }).build()
+
+        adLoader.loadAd(AdRequest.Builder().build())
+    }
+
+
 }

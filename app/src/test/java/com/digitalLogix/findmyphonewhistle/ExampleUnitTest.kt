@@ -1,4 +1,4 @@
-package com.example.findmyphonewhistle
+package com.digitalLogix.findmyphonewhistle
 
 import org.junit.Test
 

@@ -13,4 +13,7 @@
     <string name="navigation_drawer_open">navigation_drawer_open</string>
     <string name="navigation_drawer_close">navigation_drawer_close</string>
     <string name="more_apps_link">https://play.google.com/store/apps/developer?id=Rdure+Apps</string>
+
+    <string name="admob_app_id">ca-app-pub-1200903482292954~7041562288</string>
+    <string name="admob_native_id">ca-app-pub-1200903482292954/2252270038</string>
 </resources>
